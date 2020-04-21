@@ -7,7 +7,7 @@ public class JaggedArrayIterator<T> implements Iterator<T> {
     private int cell = 0;
     private T[][] array;
 
-    public JaggedArrayIterator (T[][] array) {
+    public JaggedArrayIterator(T[][] array) {
         this.array = array;
     }
 
@@ -23,9 +23,9 @@ public class JaggedArrayIterator<T> implements Iterator<T> {
     @Override
     public T next() {
         T rsl = array[row][cell];
-        if(cell < array[row].length - 1){
+        if (cell < array[row].length - 1) {
             cell++;
-        } else if (row != array.length - 1){
+        } else if (row != array.length - 1) {
             row++;
             cell = 0;
         } else {
