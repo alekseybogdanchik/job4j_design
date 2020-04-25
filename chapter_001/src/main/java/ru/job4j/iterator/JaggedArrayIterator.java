@@ -1,10 +1,11 @@
 package ru.job4j.iterator;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class JaggedArrayIterator<T> implements Iterator<T> {
     private int row = 0;
-    private int cell = 0;
+    private int col = 0;
     private T[][] array;
 
     public JaggedArrayIterator(T[][] array) {
@@ -13,23 +14,21 @@ public class JaggedArrayIterator<T> implements Iterator<T> {
 
     @Override
     public boolean hasNext() {
-        boolean rsl = true;
-        if (row == array.length - 1 && cell == array[row].length) {
-            rsl = false;
+        while (row < array.length && array[row].length == 0) {
+            row++;
         }
-        return rsl;
+        return row < array.length && col < array[row].length;
     }
 
     @Override
     public T next() {
-        T rsl = array[row][cell];
-        if (cell < array[row].length - 1) {
-            cell++;
-        } else if (row != array.length - 1) {
+        if (!hasNext()) {
+            throw new NoSuchElementException();
+        }
+        T rsl = array[row][col++];
+        if (col == array[row].length) {
             row++;
-            cell = 0;
-        } else {
-            cell++;
+            col = 0;
         }
         return rsl;
     }

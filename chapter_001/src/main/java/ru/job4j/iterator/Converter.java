@@ -6,7 +6,6 @@ public class Converter {
     Iterator<Integer> convert(Iterator<Iterator<Integer>> it) {
         return new Iterator<Integer>() {
             Iterator inner = it.next();
-            Integer num = null;
 
             @Override
             public boolean hasNext() {

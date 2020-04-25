@@ -36,6 +36,21 @@ public class JaggedArrayIteratorTest {
     }
 
     @Test
+    public void whenArraysIsEmptyHasNextReturnFalse() {
+        it = new JaggedArrayIterator(new Integer[][]{{}, {}, {}});
+        assertThat(it.hasNext(), is(false));
+    }
+
+    @Test
+    public void whenSecondArraysIsEmpty() {
+        it = new JaggedArrayIterator(new Integer[][]{{1}, {}, {2}});
+        assertThat(it.next(), is(1));
+        assertThat(it.hasNext(), is(true));
+        assertThat(it.next(), is(2));
+        assertThat(it.hasNext(), is(false));
+    }
+
+    @Test
     public void hasNextNextSequentialInvocation() {
         assertThat(it.hasNext(), is(true));
         assertThat(it.next(), is(1));
