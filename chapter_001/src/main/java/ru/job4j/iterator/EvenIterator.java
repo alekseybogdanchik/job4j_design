@@ -21,6 +21,8 @@ public class EvenIterator implements Iterator {
         for (int i = index; i < numbers.length; i++) {
             if (EvenIterator.isEven(numbers[i])) {
                 rsl = true;
+                index = i;
+                break;
             }
         }
         return rsl;
@@ -29,12 +31,9 @@ public class EvenIterator implements Iterator {
     @Override
     public Object next() {
         int rsl = -1;
-        for (int i = index; i < numbers.length; i++) {
-            if (EvenIterator.isEven(numbers[i])) {
-                rsl = numbers[i];
-                index = i + 1;
-                break;
-            }
+        if (index < numbers.length && hasNext()) {
+            rsl = numbers[index];
+            index++;
         }
         if (rsl == -1) {
             throw new NoSuchElementException("No even elements");
