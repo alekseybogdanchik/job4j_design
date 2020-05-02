@@ -30,15 +30,10 @@ public class EvenIterator implements Iterator {
 
     @Override
     public Object next() {
-        int rsl = -1;
-        if (index < numbers.length && hasNext()) {
-            rsl = numbers[index];
-            index++;
-        }
-        if (rsl == -1) {
+        if (!hasNext()) {
             throw new NoSuchElementException("No even elements");
         }
-        return rsl;
+        return numbers[index++];
     }
 }
 
