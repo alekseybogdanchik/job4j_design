@@ -8,19 +8,29 @@ import java.util.Objects;
 
 public class ForwardLinked<T> implements Iterable<T> {
     private Node<T> first;
+    private Node<T> last;
     private int size = 0;
     private int modCount = 0;
+
+    private Node<T> indexOf(int index) {
+        Node<T> rsl = first;
+        for (int i = 0; i < index; i++) {
+            rsl = rsl.next;
+        }
+        return rsl;
+    }
 
     public void add(T model) {
         if (size == 0) {
             first = new Node<>(model, null);
+            last = first;
         } else {
-            Node<T> last = first;
-            while (last.next != null) {
-                last = last.next;
+            Node<T> node = first;
+            while (node.next != null) {
+                node = node.next;
             }
-            Node<T> node = new Node<>(model, null);
-            last.next = node;
+            last = new Node<>(model, null);
+            node.next = last;
         }
         size++;
         modCount++;
@@ -28,27 +38,37 @@ public class ForwardLinked<T> implements Iterable<T> {
 
     public T get(int index) {
         int indexChecked = Objects.checkIndex(index, size);
+        return indexOf(index).value;
+    }
+
+    public T deleteFirst() {
         T rsl = null;
-        int rslIndex = 1;
-        if (index == 0) {
-            rsl = first.value;
+        if (first == null) {
+            throw new NoSuchElementException();
         } else {
-            Node<T> node = first.next;
-            while (rslIndex != index) {
-                node = node.next;
-                rslIndex++;
-            }
-            rsl = node.value;
+            rsl = first.value;
+            first = first.next;
         }
         return rsl;
     }
 
-    public void deleteFirst() {
-        if (first == null) {
-            throw new NoSuchElementException();
+    public T deleteLast() {
+        T rsl = null;
+        if (size == 0) {
+            throw new NoSuchElementException("List is empty");
+        } else if (size == 1) {
+            rsl = last.value;
+            first = null;
+            last = null;
+            size--;
         } else {
-            first = first.next;
+            rsl = last.value;
+            Node<T> beforeLast = indexOf(size - 2);
+            beforeLast.next = null;
+            last = beforeLast;
+            size--;
         }
+        return rsl;
     }
 
     private static class Node<T> {

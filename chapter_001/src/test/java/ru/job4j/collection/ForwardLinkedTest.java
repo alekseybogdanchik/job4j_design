@@ -38,7 +38,7 @@ public class ForwardLinkedTest {
         iter.hasNext();
     }
 
-        @Test
+    @Test
     public void get() {
         ForwardLinked<Integer> lf = new ForwardLinked<>();
         lf.add(1);
@@ -47,6 +47,17 @@ public class ForwardLinkedTest {
         assertThat(lf.get(0), is(1));
         assertThat(lf.get(1), is(2));
         assertThat(lf.get(2), is(3));
+    }
+
+    @Test
+    public void getLast() {
+        ForwardLinked<Integer> lf = new ForwardLinked<>();
+        lf.add(1);
+        assertThat(lf.deleteLast(), is(1));
+        lf.add(2);
+        assertThat(lf.deleteLast(), is(2));
+        lf.add(3);
+        assertThat(lf.deleteLast(), is(3));
     }
 
     @Test(expected = IndexOutOfBoundsException.class)
@@ -78,5 +89,19 @@ public class ForwardLinkedTest {
         linked.deleteFirst();
         Iterator<Integer> it = linked.iterator();
         assertThat(it.next(), is(2));
+    }
+
+    @Test
+    public void deleteLast() {
+        ForwardLinked<Integer> lf = new ForwardLinked<>();
+        lf.add(1);
+        lf.add(2);
+        lf.add(3);
+        assertThat(lf.deleteLast(), is(3));
+        lf.deleteLast();
+        iter = lf.iterator();
+        assertThat(iter.hasNext(), is(true));
+        assertThat(iter.next(), is(1));
+        assertThat(iter.hasNext(), is(false));
     }
 }
