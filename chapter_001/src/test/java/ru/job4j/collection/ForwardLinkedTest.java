@@ -4,17 +4,18 @@ import org.junit.Test;
 
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
 
-public class LinkedForwardTest {
+public class ForwardLinkedTest {
     private Iterator<Integer> iter;
 
     @Test
     public void add() {
-        LinkedForward<Integer> lf = new LinkedForward<>();
+        ForwardLinked<Integer> lf = new ForwardLinked<>();
         lf.add(1);
         lf.add(2);
         lf.add(3);
@@ -28,7 +29,7 @@ public class LinkedForwardTest {
 
     @Test(expected = ConcurrentModificationException.class)
     public void whenIterAfterAddThenE() {
-        LinkedForward<Integer> lf = new LinkedForward<>();
+        ForwardLinked<Integer> lf = new ForwardLinked<>();
         lf.add(1);
         iter = lf.iterator();
         assertThat(iter.hasNext(), is(true));
@@ -39,7 +40,7 @@ public class LinkedForwardTest {
 
         @Test
     public void get() {
-        LinkedForward<Integer> lf = new LinkedForward<>();
+        ForwardLinked<Integer> lf = new ForwardLinked<>();
         lf.add(1);
         lf.add(2);
         lf.add(3);
@@ -50,8 +51,32 @@ public class LinkedForwardTest {
 
     @Test(expected = IndexOutOfBoundsException.class)
     public void ifGetIndexOutOfBoundsThanE() {
-        LinkedForward<String> lf = new LinkedForward<>();
+        ForwardLinked<String> lf = new ForwardLinked<>();
         lf.add("test");
         lf.get(1);
+    }
+
+    @Test(expected = NoSuchElementException.class)
+    public void whenDeleteFirst() {
+        ForwardLinked<Integer> linked = new ForwardLinked<>();
+        linked.add(1);
+        linked.deleteFirst();
+        linked.iterator().next();
+    }
+
+    @Test(expected = NoSuchElementException.class)
+    public void whenDeleteEmptyLinked() {
+        ForwardLinked<Integer> linked = new ForwardLinked<>();
+        linked.deleteFirst();
+    }
+
+    @Test
+    public void whenMultiDelete() {
+        ForwardLinked<Integer> linked = new ForwardLinked<>();
+        linked.add(1);
+        linked.add(2);
+        linked.deleteFirst();
+        Iterator<Integer> it = linked.iterator();
+        assertThat(it.next(), is(2));
     }
 }

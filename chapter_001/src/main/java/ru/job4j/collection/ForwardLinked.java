@@ -6,7 +6,7 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 
 
-public class LinkedForward<T> implements Iterable<T> {
+public class ForwardLinked<T> implements Iterable<T> {
     private Node<T> first;
     private int size = 0;
     private int modCount = 0;
@@ -41,6 +41,14 @@ public class LinkedForward<T> implements Iterable<T> {
             rsl = node.value;
         }
         return rsl;
+    }
+
+    public void deleteFirst() {
+        if (first == null) {
+            throw new NoSuchElementException();
+        } else {
+            first = first.next;
+        }
     }
 
     private static class Node<T> {
