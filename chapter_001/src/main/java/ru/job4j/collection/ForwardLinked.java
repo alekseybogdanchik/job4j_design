@@ -36,6 +36,25 @@ public class ForwardLinked<T> implements Iterable<T> {
         modCount++;
     }
 
+    public void revert() {
+        Node<T> node = null;
+        Node<T> firstRev = null;
+        if (size >= 2) {
+            for (int i = size - 1; i > 0; i--) {
+                node = indexOf(i);
+                node.next = indexOf(i - 1);
+                if (i == size - 1) {
+                    firstRev = node;
+                    firstRev.next = node.next;
+                }
+            }
+            first = firstRev;
+            first.next = firstRev.next;
+            last = indexOf(size - 1);
+            last.next = null;
+        }
+    }
+
     public T get(int index) {
         int indexChecked = Objects.checkIndex(index, size);
         return indexOf(index).value;

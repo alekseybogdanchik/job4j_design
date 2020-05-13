@@ -59,6 +59,14 @@ public class SimpleArrayTest {
     }
 
     @Test
+    public void contains() {
+        SimpleArray<Integer> simpleArray = new SimpleArray<>(1);
+        simpleArray.add(123);
+        assertThat(simpleArray.contains(123), is(true));
+        assertThat(simpleArray.contains(321), is(false));
+    }
+
+    @Test
     public void remove() {
         SimpleArray<Integer> simpleArray = new SimpleArray<>(5);
         iter = simpleArray.iterator();

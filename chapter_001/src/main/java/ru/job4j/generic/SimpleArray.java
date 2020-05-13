@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
+
 public class SimpleArray<T> implements Iterable<T> {
     private Object[] array;
     private int position = 0;
@@ -20,7 +21,19 @@ public class SimpleArray<T> implements Iterable<T> {
         }
     }
 
-    public void set(int index, T model) {
+    public boolean contains(T model) {
+        boolean rsl = false;
+        if (position > 0) {
+            for (int i = 0; i < position; i++) {
+                if (array[i].equals(model)) {
+                    rsl = true;
+                }
+            }
+        }
+        return rsl;
+    }
+
+        public void set(int index, T model) {
         int indexChecked = Objects.checkIndex(index, position);
         array[indexChecked] = model;
     }
