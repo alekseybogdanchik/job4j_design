@@ -27,6 +27,7 @@ public class SimpleArray<T> implements Iterable<T> {
             for (int i = 0; i < position; i++) {
                 if (array[i].equals(model)) {
                     rsl = true;
+                    break;
                 }
             }
         }

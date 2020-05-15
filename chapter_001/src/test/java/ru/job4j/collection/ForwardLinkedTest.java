@@ -106,7 +106,7 @@ public class ForwardLinkedTest {
     }
 
     @Test
-    public void whenAddOneThenRevertIter() {
+    public void whenAddOneThenRevertOne() {
         ForwardLinked<Integer> linked = new ForwardLinked<>();
         linked.add(1);
         linked.revert();
@@ -115,7 +115,7 @@ public class ForwardLinkedTest {
     }
 
     @Test
-    public void whenAddAndRevertThenIter() {
+    public void whenAdd123AndRevertThenIter321() {
         ForwardLinked<Integer> linked = new ForwardLinked<>();
         linked.add(1);
         linked.add(2);

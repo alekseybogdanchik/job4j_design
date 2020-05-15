@@ -38,19 +38,24 @@ public class ForwardLinked<T> implements Iterable<T> {
 
     public void revert() {
         Node<T> node = null;
-        Node<T> firstRev = null;
+        Node<T> nodeTmp = null;
+        Node<T> firstTmp = null;
         if (size >= 2) {
-            for (int i = size - 1; i > 0; i--) {
-                node = indexOf(i);
-                node.next = indexOf(i - 1);
+            for (int i = size - 1; i >= 0; i--) {
+                nodeTmp = indexOf(i);
                 if (i == size - 1) {
-                    firstRev = node;
-                    firstRev.next = node.next;
+                    firstTmp = nodeTmp;
+                } else if (i == size - 2) {
+                    firstTmp.next = nodeTmp;
+                    node = nodeTmp;
+                } else {
+                    node.next = nodeTmp;
+                    node = nodeTmp;
                 }
             }
-            first = firstRev;
-            first.next = firstRev.next;
-            last = indexOf(size - 1);
+            first = firstTmp;
+            first.next = firstTmp.next;
+            last = node;
             last.next = null;
         }
     }
