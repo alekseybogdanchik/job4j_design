@@ -1,33 +1,35 @@
 package ru.job4j.collection;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
-import java.util.stream.Stream;
+
 
 public class Analize {
 
     public Info diff(List<User> previous, List<User> current) {
         Info info = new Info();
+        Map<Integer, String> prvMap = new HashMap<>(previous.size());
+
         for (User prvUser : previous) {
-            int prvId = prvUser.id;
-            Stream<User> curUserStream = current.stream();
-            if (!curUserStream.anyMatch(user -> user.equals(prvUser))) {
-                curUserStream = current.stream();
-                if (curUserStream.anyMatch(user -> user.id == prvId)) {
-                    info.changed++;
-                } else {
-                    info.deleted++;
-                }
-            }
+            prvMap.put(prvUser.id, prvUser.name);
         }
 
         for (User curUser : current) {
             int curId = curUser.id;
-            Stream<User> prvUserStream = previous.stream();
-            if (!prvUserStream.anyMatch(user -> user.id == curId)) {
+            String curName = curUser.name;
+            if (prvMap.containsKey(curId)) {
+                String tmpName = prvMap.get(curId);
+                if (!tmpName.equals(curName)) {
+                    info.changed++;
+                }
+            } else {
                 info.added++;
             }
         }
+
+        info.deleted = previous.size() + info.added - current.size();
         return info;
     }
 
@@ -49,12 +51,12 @@ public class Analize {
                 return false;
             }
             User user = (User) o;
-            return Objects.equals(name, user.name);
+            return Objects.equals(id, user.id);
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(name);
+            return Objects.hash(id);
         }
     }
 
