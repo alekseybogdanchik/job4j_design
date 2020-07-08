@@ -6,6 +6,11 @@ import java.util.List;
 
 
 public class Analizy {
+    private void addTime(String string, List<String> list) {
+        String[] tmp = string.split(" ");
+        list.add(tmp[1]);
+    }
+
     public void unavailable(String source, String target) {
         List<String> list = new ArrayList<>();
         List<String> diapason = new ArrayList<>();
@@ -13,24 +18,26 @@ public class Analizy {
         try (BufferedReader read = new BufferedReader(new FileReader(source))) {
             read.lines().forEach(list::add);
             for (String string : list) {
-                if ((string.startsWith("200") || string.startsWith("300")) && !available) {
-                    String[] tmp = string.split(" ");
-                    diapason.add(tmp[1]);
+                if (!available && (string.startsWith("200") || string.startsWith("300"))) {
+                    addTime(string, diapason);
                     available = true;
                 }
-                if ((string.startsWith("400") || string.startsWith("500")) && available) {
-                    String[] tmp = string.split(" ");
-                    diapason.add(tmp[1]);
+                if (available && (string.startsWith("400") || string.startsWith("500"))) {
+                    addTime(string, diapason);
                     available = false;
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+        targetWrite(diapason, target);
+    }
+
+    private void targetWrite(List<String> listToWrite, String target) {
         int i = 0;
         try (PrintWriter out = new PrintWriter(
                 new BufferedOutputStream(new FileOutputStream(target)))) {
-            for (String time : diapason) {
+            for (String time : listToWrite) {
                 out.write(time);
                 i++;
                 if (i % 2 == 0) {

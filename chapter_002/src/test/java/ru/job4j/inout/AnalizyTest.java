@@ -13,7 +13,7 @@ import static org.junit.Assert.*;
 
 public class AnalizyTest {
     @Test
-    public void whenPairWithoutComment() {
+    public void whenTwoDiapasons() {
         Analizy analizy = new Analizy();
         String source = "./data/log.txt";
         String target = "./data/unavailable.txt";
