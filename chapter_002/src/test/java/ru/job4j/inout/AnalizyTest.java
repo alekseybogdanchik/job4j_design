@@ -1,9 +1,10 @@
 package ru.job4j.inout;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,12 +13,24 @@ import static org.junit.Assert.*;
 
 
 public class AnalizyTest {
+    @Rule
+    public TemporaryFolder folder = new TemporaryFolder();
+
     @Test
-    public void whenTwoDiapasons() {
+    public void whenTwoDiapasons() throws IOException {
         Analizy analizy = new Analizy();
-        String source = "./data/log.txt";
-        String target = "./data/unavailable.txt";
-        analizy.unavailable(source, target);
+        File source = folder.newFile("log.txt");
+        File target = folder.newFile("target.txt");
+        try (PrintWriter out = new PrintWriter(source)) {
+            out.write("200 10:56:01\n"
+                    + "500 10:57:01\n"
+                    + "400 10:58:01\n"
+                    + "200 10:59:01\n"
+                    + "500 11:01:02\n"
+                    + "200 11:02:02");
+        }
+
+        analizy.unavailable(source.getAbsolutePath(), target.getAbsolutePath());
         List<String> rsl = new ArrayList<>();
         try (BufferedReader in = new BufferedReader(new FileReader(target))) {
             in.lines().forEach(rsl::add);
