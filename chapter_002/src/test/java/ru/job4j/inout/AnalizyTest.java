@@ -21,12 +21,13 @@ public class AnalizyTest {
         Analizy analizy = new Analizy();
         File source = folder.newFile("log.txt");
         File target = folder.newFile("target.txt");
+        String ls = System.lineSeparator();
         try (PrintWriter out = new PrintWriter(source)) {
-            out.write("200 10:56:01\n"
-                    + "500 10:57:01\n"
-                    + "400 10:58:01\n"
-                    + "200 10:59:01\n"
-                    + "500 11:01:02\n"
+            out.write("200 10:56:01" + ls
+                    + "500 10:57:01" + ls
+                    + "400 10:58:01" + ls
+                    + "200 10:59:01" + ls
+                    + "500 11:01:02" + ls
                     + "200 11:02:02");
         }
 
