@@ -9,8 +9,11 @@ import java.util.List;
 
 public class Search {
     public static void main(String[] args) throws IOException {
-        Path start = Paths.get(".");
-        search(start, "txt").forEach(System.out::println);
+        if (args.length == 0) {
+            throw new IllegalArgumentException("Start folder & searched extension is null. Usage ????.");
+        }
+        Path start = Paths.get(args[0]);
+        search(start, args[2]).forEach(System.out::println);
     }
 
     public static List<Path> search(Path root, String ext) throws IOException {
