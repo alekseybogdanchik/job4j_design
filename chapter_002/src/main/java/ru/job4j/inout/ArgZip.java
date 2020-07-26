@@ -12,6 +12,9 @@ public class ArgZip {
         if (args.length != 3) {
             throw new IllegalArgumentException("No program arguments: Zip folder, excluding files extension or output name");
         }
+        System.out.println(directory());
+        System.out.println(exclude());
+        System.out.println(output());
         return true;
     }
 

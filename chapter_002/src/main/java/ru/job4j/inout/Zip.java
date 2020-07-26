@@ -1,6 +1,7 @@
 package ru.job4j.inout;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
@@ -8,6 +9,12 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 public class Zip {
+
+    public static List<Path> exclude(Path directory, String ext) throws IOException {
+        SearchFiles searcher = new SearchFiles(p -> !p.toFile().getName().endsWith(ext));
+        Files.walkFileTree(directory, searcher);
+        return searcher.getPaths();
+    }
 
     public void packFiles(List<Path> sources, File target) {
         try (ZipOutputStream zip = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(target)))) {
@@ -39,7 +46,10 @@ public class Zip {
                 new File("./chapter_005/pom.zip")
         );
         if (new ArgZip(args).valid()) {
-            List<Path> toZip = Search.search(Paths.get(args[0]), args[1]);
+            List<Path> toZip = exclude(Paths.get(args[0]), args[1]);
+            for (Path p : toZip) {
+                System.out.println(p);
+            }
             File output = new File(args[2]);
             new Zip().packFiles(toZip, output);
         }
