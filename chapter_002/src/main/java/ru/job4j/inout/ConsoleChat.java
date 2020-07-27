@@ -35,10 +35,13 @@ public class ConsoleChat {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        for (String s : lines) {
+            System.out.println(s);
+        }
     }
 
     public String findAnswer() {
-        int index = (int) Math.random() * lines.size();
+        int index = (int) (Math.random() * lines.size());
         return lines.get(index);
     }
 

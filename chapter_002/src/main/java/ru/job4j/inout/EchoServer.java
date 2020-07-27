@@ -9,7 +9,7 @@ import java.net.Socket;
 
 
 public class EchoServer {
-    @SuppressWarnings("checkstyle:InnerAssignment")
+
     public static void main(String[] args) throws IOException {
         try (ServerSocket server = new ServerSocket(9000)) {
             boolean run = true;
@@ -19,7 +19,11 @@ public class EchoServer {
                     BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
                     String str;
                     String msg = null;
-                    while (!(str = in.readLine()).isEmpty()) {
+                    while (true) {
+                        str = in.readLine();
+                        if (str.isEmpty()) {
+                            break;
+                        }
                         if (str.contains("/?msg=")) {
                             msg = str.substring((str.indexOf("=") + 1), str.lastIndexOf(" "));
                             if (msg.equals("Exit")) {
