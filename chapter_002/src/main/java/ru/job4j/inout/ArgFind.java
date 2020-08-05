@@ -12,7 +12,8 @@ public class ArgFind {
     public boolean valid() {
         if (args.length != 7) {
             throw new IllegalArgumentException("Enter correct arguments. "
-                + "Usage java -jar find.jar -d DIRECTORY -n NAME/MASK -m(for MASK)/-f(for full NAME match) -o OUTPUT_FILE");
+                + "Usage java -jar find.jar "
+                + "-d DIRECTORY -n NAME/MASK/RegEx -f(for full NAME match)/-m(for MASK)/-r(for RegEx) -o OUTPUT_FILE");
         }
         return true;
     }
@@ -21,11 +22,11 @@ public class ArgFind {
         return args[1];
     }
 
-    public String getName() {
+    public String getKey() {
         return args[3];
     }
 
-    public String getMatch() {
+    public String condition() {
         return args[4];
     }
 

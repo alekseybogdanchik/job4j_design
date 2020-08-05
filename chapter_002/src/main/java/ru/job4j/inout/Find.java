@@ -9,6 +9,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class Find {
@@ -33,17 +35,31 @@ public class Find {
         }
     }
 
+    public static Predicate<Path> condition(String condition, String key) {
+        Predicate<Path> rsl = null;
+        if (condition.equals("-f")) {
+            rsl = p -> p.toFile().getName().equals(key);
+        }
+        if (condition.equals("-m")) {
+            rsl = p -> p.toFile().getName().endsWith(key);
+        }
+        if (condition.equals("-r")) {
+            rsl = path -> {
+                Pattern p = Pattern.compile(key);
+                Matcher matcher = p.matcher(path.toFile().getName());
+                return matcher.find();
+            };
+        }
+        return rsl;
+    }
+
     public static void main(String[] args) throws IOException {
         ArgFind arg = new ArgFind(args);
         if (arg.valid()) {
-            if (arg.getMatch().equals("-f")) {
-                Predicate<Path> namePredicate = p -> p.toFile().getName().equals(arg.getName());
-                save(result(Paths.get(arg.directory()), namePredicate), arg.output());
-            }
-            if (arg.getMatch().equals("-m")) {
-                Predicate<Path> maskPredicate = p -> p.toFile().getName().endsWith(arg.getName());
-                save(result(Paths.get(arg.directory()), maskPredicate), arg.output());
-            }
+            save(
+                    result(Paths.get(arg.directory()), condition(arg.condition(), arg.getKey())),
+                    arg.output()
+            );
         }
     }
 }
