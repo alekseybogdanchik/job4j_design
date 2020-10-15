@@ -1,12 +1,11 @@
 package ru.job4j.inout;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedList;
 
 
 public class Shell {
 
-    private List<String> curDir = new ArrayList<>();
+    private LinkedList<String> curDir = new LinkedList<>();
 
     public void cd(String path) {
         if (path.startsWith("/")) {
@@ -23,7 +22,7 @@ public class Shell {
             curDir.add(path);
         }
         if (path.contains("..") && curDir.size() != 0) {
-            curDir.remove(curDir.size() - 1);
+            curDir.removeLast();
         }
     }
 
