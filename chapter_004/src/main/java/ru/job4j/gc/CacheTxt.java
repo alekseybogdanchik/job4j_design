@@ -12,21 +12,23 @@ public class CacheTxt implements Cache {
     private Map<String, SoftReference<Container>> cache = new HashMap<>();
 
     @Override
-    public void get(String key) {
+    public String get(String key) {
         boolean run = true;
+        String cacheStr = null;
         if (cache.containsKey(key)) {
             Container fromCache = cache.get(key).get();
             if (fromCache != null) {
-                System.out.println(fromCache.getContent());
+                cacheStr = fromCache.getContent();
                 run = false;
             }
         }
         if (run) {
             String s = load(key);
             if (s != null) {
-                System.out.println(s);
+                cacheStr = s;
             }
         }
+        return cacheStr;
     }
 
     @Override
@@ -55,26 +57,4 @@ public class CacheTxt implements Cache {
         }
         return rsl;
     }
-
-    /*
-    @Override
-    public boolean load(String key) {
-        boolean rsl = false;
-        List<String> list = new ArrayList<>();
-        File source = new File(".\\cacheTxt\\" + key);
-        if (source.exists()) {
-            try (BufferedReader read = new BufferedReader(new FileReader(source))) {
-                read.lines().forEach(list::add);
-                SoftReference<List> cacheList = new SoftReference<>(list);
-                cache.put(key, cacheList);
-                rsl = true;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } else {
-            System.out.println("File not exist");
-        }
-        return rsl;
-    }
-*/
 }
