@@ -1,17 +1,13 @@
 package ru.job4j.lsp;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
-public class Storage {
-    List<Food> storage = new ArrayList<>();
+public interface Storage {
 
-    public void addFood(Food food) {
-        storage.add(food);
-    }
+    void addFood(Food food);
 
-    public List<Food> showFood() {
-        return storage;
-    }
+    boolean accept(Food food);
+
+    List<Food> clear();
 }
