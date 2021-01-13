@@ -1,0 +1,65 @@
+package ru.job4j.parking;
+
+import org.junit.Test;
+
+import java.util.List;
+
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.*;
+
+
+public class ParkingTest {
+    Vehicle car1 = new Car("car", "a001aa");
+    Vehicle car2 = new Car("car", "m002mm");
+    Vehicle truck1 = new Truck("truck", "t777aa", 3);
+    Vehicle truck2 = new Truck("truck", "e999ee", 3);
+
+    @Test
+    public void whenOneCarAndOneTruckIsOnParking() {
+        Parking parking = new Parking(1, 1);
+        parking.add(car1);
+        parking.add(truck1);
+        List<String> rsl = parking.showAllVehicles();
+        assertThat(rsl.contains(car1.getNumberPlate()), is(true));
+        assertThat(rsl.contains(truck1.getNumberPlate()), is(true));
+    }
+
+    @Test
+    public void whenCarsAndOneTruckIsOnParkingForCars() {
+        Parking parking = new Parking(5, 1);
+        parking.add(car1);
+        parking.add(car2);
+        parking.add(truck1);
+        parking.add(truck2);
+        List<String> rsl = parking.showAllVehicles();
+        assertThat(rsl.contains(truck2.getNumberPlate()), is(true));
+    }
+
+    @Test
+    public void whenOnlyTrucksIsOnBothParking() {
+        Parking parking = new Parking(3, 1);
+        parking.add(truck1);
+        parking.add(truck2);
+        parking.add(car1);
+        parking.add(car2);
+        List<String> rsl = parking.showAllVehicles();
+        assertThat(rsl.contains(truck1.getNumberPlate()), is(true));
+        assertThat(rsl.contains(truck2.getNumberPlate()), is(true));
+        assertThat(rsl.contains(car1.getNumberPlate()), is(false));
+        assertThat(rsl.contains(car2.getNumberPlate()), is(false));
+    }
+
+    @Test
+    public void whenNoSpaceForTruck2OnParkingForCars() {
+        Parking parking = new Parking(4, 1);
+        parking.add(truck1);
+        parking.add(car1);
+        parking.add(car2);
+        parking.add(truck2);
+        List<String> rsl = parking.showAllVehicles();
+        assertThat(rsl.contains(truck1.getNumberPlate()), is(true));
+        assertThat(rsl.contains(truck2.getNumberPlate()), is(false));
+        assertThat(rsl.contains(car1.getNumberPlate()), is(true));
+        assertThat(rsl.contains(car2.getNumberPlate()), is(true));
+    }
+}

@@ -12,6 +12,12 @@ public class Vehicle {
         this.size = size;
     }
 
+    public Vehicle(String type, String numberPlate) {
+        this.type = type;
+        this.numberPlate = numberPlate;
+        this.size = 1;
+    }
+
     public String getType() {
         return type;
     }
