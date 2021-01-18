@@ -15,6 +15,31 @@ public class Parking {
         truckParking = new String[truckParkingSize];
     }
 
+    private boolean truckToCarParking(Vehicle vehicle) {
+        boolean haveSpace = false;
+        for (int i = 0; i <= (carParking.length - vehicle.getSize()); i++) {
+            if (carParking[i] == null) {
+                haveSpace = true;
+                int tempStart = i;
+                int tempFinish = tempStart + (vehicle.getSize() - 1);
+                for (int j = tempStart + 1; j <= tempFinish; j++) {
+                    if (carParking[j] != null) {
+                        haveSpace = false;
+                        break;
+                    }
+                }
+                if (haveSpace) {
+                    for (int s = tempStart; s <= tempFinish; s++) {
+                        carParking[s] = vehicle.getNumberPlate();
+                        carCounter++;
+                    }
+                    break;
+                }
+            }
+        }
+        return haveSpace;
+    }
+
     public boolean add(Vehicle vehicle) {
         boolean rsl = false;
         if (vehicle.getType().equals("car")) {
@@ -41,32 +66,7 @@ public class Parking {
                 }
             }
             if (!rsl && carParking.length - carCounter >= vehicle.getSize()) {
-                boolean haveSpace = false;
-                for (int i = 0; i < carParking.length; i++) {
-                    if (carParking[i] == null) {
-                        int tempStart = i;
-                        int tempFinish = i + (vehicle.getSize() - 1);
-                        if (tempFinish < carParking.length) {
-                            haveSpace = true;
-                            for (int j = tempStart + 1; j <= tempFinish; j++) {
-                                if (carParking[j] != null) {
-                                    haveSpace = false;
-                                    break;
-                                }
-                            }
-                        }
-                        if (haveSpace) {
-                            rsl = true;
-                            for (int s = tempStart; s <= tempFinish; s++) {
-                                carParking[s] = vehicle.getNumberPlate();
-                                carCounter++;
-                            }
-                        }
-                    }
-                    if (rsl) {
-                        break;
-                    }
-                }
+                rsl = truckToCarParking(vehicle);
             }
         }
         return rsl;

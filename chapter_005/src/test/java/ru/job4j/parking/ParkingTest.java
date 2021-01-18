@@ -79,8 +79,21 @@ public class ParkingTest {
         assertThat(rsl.contains(truck2.getNumberPlate()), is(true));
         assertThat(rsl.contains(car1.getNumberPlate()), is(true));
         assertThat(rsl.contains(car2.getNumberPlate()), is(true));
-        parking.remove(truck2.getNumberPlate());
+        boolean removed = parking.remove(truck2.getNumberPlate());
+        assertThat(removed, is(true));
         rsl = parking.showAllVehicles();
         assertThat(rsl.contains(truck2.getNumberPlate()), is(false));
+    }
+
+    @Test
+    public void whenBothTrucksOnCarParking() {
+        Parking parking = new Parking(6, 0);
+        parking.add(truck1);
+        parking.add(truck2);
+        parking.add(car1);
+        List<String> rsl = parking.showAllVehicles();
+        assertThat(rsl.contains(truck1.getNumberPlate()), is(true));
+        assertThat(rsl.contains(truck2.getNumberPlate()), is(true));
+        assertThat(rsl.contains(car1.getNumberPlate()), is(false));
     }
 }
