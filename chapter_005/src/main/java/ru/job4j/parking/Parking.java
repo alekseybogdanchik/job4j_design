@@ -42,7 +42,7 @@ public class Parking {
 
     public boolean add(Vehicle vehicle) {
         boolean rsl = false;
-        if (vehicle.getType().equals("car")) {
+        if (vehicle.getSize() == 1) {
             if (carCounter < carParking.length) {
                 for (int i = 0; i < carParking.length; i++) {
                     if (carParking[i] == null) {
@@ -54,7 +54,7 @@ public class Parking {
                 }
             }
         }
-        if (vehicle.getType().equals("truck")) {
+        if (vehicle.getSize() > 1) {
             if (truckCounter < truckParking.length) {
                 for (int i = 0; i < truckParking.length; i++) {
                     if (truckParking[i] == null) {

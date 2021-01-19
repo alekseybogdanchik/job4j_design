@@ -14,6 +14,7 @@ public class ParkingTest {
     Vehicle car3 = new Car("car", "k003kk");
     Vehicle truck1 = new Truck("truck", "t777aa", 3);
     Vehicle truck2 = new Truck("truck", "e999ee", 3);
+    Vehicle bus1 = new Truck("bus", "c100to", 3);
 
     @Test
     public void whenOneCarAndOneTruckIsOnParking() {
@@ -31,9 +32,9 @@ public class ParkingTest {
         parking.add(car1);
         parking.add(car2);
         parking.add(truck1);
-        parking.add(truck2);
+        parking.add(bus1);
         List<String> rsl = parking.showAllVehicles();
-        assertThat(rsl.contains(truck2.getNumberPlate()), is(true));
+        assertThat(rsl.contains(bus1.getNumberPlate()), is(true));
     }
 
     @Test
