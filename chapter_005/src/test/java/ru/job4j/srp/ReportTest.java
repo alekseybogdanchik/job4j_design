@@ -33,7 +33,9 @@ public class ReportTest {
         Employee worker = new Employee("Ivan", now, now, 100);
         store.add(worker);
         Report engine = new ReportHTML(store);
-        boolean result = engine.generate(em -> true).contains("<html lang=\"ru\">");
+        String rsl = engine.generate(em -> true);
+        System.out.println(rsl);
+        boolean result = rsl.contains("<html lang=\"ru\">");
         assertThat(result, is(true));
     }
 
@@ -72,5 +74,35 @@ public class ReportTest {
                 .append(worker1.getSalary()).append(";")
                 .append(System.lineSeparator());
         assertThat(engine.generate(em -> true), is(expect.toString()));
+    }
+
+    @Test
+    public void whenJSONGenerated() {
+        MemStore store = new MemStore();
+        Calendar now = Calendar.getInstance();
+        Employee worker = new Employee("Ivan", now, now, 100);
+        Employee worker2 = new Employee("Pavel", now, now, 200);
+        store.add(worker);
+        store.add(worker2);
+        Report engine = new ReportJSON(store);
+        String rsl = engine.generate(em -> true);
+        //System.out.println(rsl);
+        boolean result = rsl.contains("{");
+        assertThat(result, is(true));
+    }
+
+    @Test
+    public void whenXMLGenerated() {
+        MemStore store = new MemStore();
+        Calendar now = Calendar.getInstance();
+        Employee worker = new Employee("Ivan", now, now, 100);
+        Employee worker2 = new Employee("Pavel", now, now, 200);
+        store.add(worker);
+        store.add(worker2);
+        Report engine = new ReportXML(store);
+        String rsl = engine.generate(em -> true);
+        //System.out.println(rsl);
+        boolean result = rsl.contains("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+        assertThat(result, is(true));
     }
 }
